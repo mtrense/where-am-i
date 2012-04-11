@@ -1,7 +1,9 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'where'
 
-describe "WhereAmI" do
-  it "fails" do
-    fail "hey buddy, you should probably rename this file and start specing for real"
-  end
+describe Where do
+	
+	it { subject.cfile.to_s.should == __FILE__ }
+	it { subject.cdir.should == Pathname.new(__FILE__).parent }
+	it { subject.cgem.should be_nil }
+	
 end
