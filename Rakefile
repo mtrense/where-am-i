@@ -6,7 +6,6 @@ require 'jeweler'
 
 Jeweler::Tasks.new do |gem|
 	gem.name = "where-am-i"
-	gem.version = '0.0.1'
 	gem.homepage = "http://github.com/mtrense/where-am-i"
 	gem.license = "MIT"
 	gem.files = FileList['lib/**/*.rb', '[A-Z]*', 'spec/**/*'].to_a
