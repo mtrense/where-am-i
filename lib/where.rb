@@ -3,8 +3,8 @@ require 'pathname'
 
 module Where
 	
-	def cfile
-		p = __find_foreign[/^[^:]+(?=:)/]
+	def cfile(depth = 0)
+		p = caller[depth][/^[^:]+(?=:)/]
 		if /^\(\w+\)$/ === p
 			nil
 		else
@@ -12,30 +12,24 @@ module Where
 		end
 	end
 	
-	def cdir
-		if f = cfile
-			cfile.parent
+	def cdir(depth = 0)
+		if f = cfile(depth + 1)
+			f.parent
 		else
 			Pathname.new('.')
 		end
 	end
 	
-	def cgem
+	def cgem(depth = 0)
 		require 'rubygems'
-		f = cfile.to_s
+		f = cfile(depth + 1).to_s
 		Gem::Specification.find {|s| f.start_with? s.gem_dir }
 	end
 	
-	def cgem_path(rel_path = '')
-		Pathname.new(cgem.gem_dir) + rel_path
+	def cgem_path(rel_path = '', depth = 0)
+		Pathname.new(cgem(depth + 1).gem_dir) + rel_path
 	end
 	
 	extend Where
-	
-	private
-	
-	def __find_foreign
-		caller.find {|c| not c.start_with?(__FILE__) }
-	end
 	
 end
