@@ -27,7 +27,11 @@ module Where
 	end
 	
 	def cgem_path(rel_path = '', depth = 0)
-		Pathname.new(cgem(depth + 1).gem_dir) + rel_path
+		if gem = cgem(depth + 1)
+			Pathname.new(gem.gem_dir)
+		else
+			Pathname.new('.')
+		end + rel_path
 	end
 	
 	extend Where
